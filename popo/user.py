@@ -1,4 +1,4 @@
-from validation import validator
+from validation import *
 
 
 class User:
@@ -21,7 +21,7 @@ class User:
         return self._name
 
     @name.setter
-    @validator(lambda s: [s == "", s is None], ValueError("Name can't be blank or None"))
+    @str_validator
     def name(self, name: str):
         self._name = name
 

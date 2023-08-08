@@ -8,3 +8,13 @@ def validator(cmp, exc):
         return wrapper
 
     return decorator
+
+
+def str_validator(setter):
+    def wrapper(self, value):
+        if value == "" or value is None:
+            raise ValueError(f"'{setter.__name__}' can't be blank or None")
+        setter(self, value)
+
+    return wrapper
+
