@@ -1,4 +1,5 @@
 from datetime import datetime
+from validation import *
 
 
 class Match:
@@ -14,6 +15,7 @@ class Match:
         return self._match_id
 
     @match_id.setter
+    @int_validator
     def match_id(self, match_id: int):
         self._match_id = match_id
 
@@ -22,6 +24,7 @@ class Match:
         return self._player_one_id
 
     @player_one.setter
+    @int_validator
     def player_one(self, player_one_id: int):
         self._player_one_id = player_one_id
 
@@ -30,6 +33,7 @@ class Match:
         return self._player_two_id
 
     @player_two.setter
+    @int_validator
     def player_two(self, player_two_id: int):
         self._player_two_id = player_two_id
 
@@ -38,6 +42,7 @@ class Match:
         return self._game
 
     @game.setter
+    @str_validator
     def game(self, game: str):
         self._game = game
 

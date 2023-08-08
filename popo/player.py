@@ -1,4 +1,4 @@
-from validation import validator
+from validation import *
 
 
 class Player:
@@ -12,7 +12,7 @@ class Player:
         return self._game
 
     @game.setter
-    @validator(lambda s: [s == "", s is None], ValueError("Game can't be blank or None"))
+    @str_validator
     def game(self, game: str):
         self._game = game
 
@@ -21,7 +21,7 @@ class Player:
         return self._rating
 
     @rating.setter
-    @validator(lambda n: n < 0, ValueError("Rating can't be less than 0"))
+    @int_validator
     def rating(self, rating: int):
         self._rating = rating
 
@@ -30,7 +30,7 @@ class Player:
         return self._deviation
 
     @deviation.setter
-    @validator(lambda n: n < 0, ValueError("Deviation can't be less than 0"))
+    @int_validator
     def deviation(self, deviation: int):
         self._deviation = deviation
         
