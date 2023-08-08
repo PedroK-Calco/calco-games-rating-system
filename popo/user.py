@@ -21,7 +21,7 @@ class User:
         return self._name
 
     @name.setter
-    @validator(lambda n: [n == "", n is None], ValueError("Name can't be blank or None"))
+    @validator(lambda s: [s == "", s is None], ValueError("Name can't be blank or None"))
     def name(self, name: str):
         self._name = name
 
@@ -30,6 +30,6 @@ class User:
         return self._email
 
     @email.setter
-    @validator(lambda n: [n == "", n is None], ValueError("Name can't be blank or None"))
+    @validator(lambda n: [n == "", n is None], ValueError("Email can't be blank or None"))
     def email(self, email: str):
         self._email = email
