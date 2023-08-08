@@ -12,7 +12,7 @@ class User:
         return self._id
 
     @user_id.setter
-    @validator(lambda n: n < 0, ValueError("User ID can't be less than 0"))
+    @int_validator
     def user_id(self, user_id: int):
         self._id = user_id
 
@@ -30,6 +30,6 @@ class User:
         return self._email
 
     @email.setter
-    @validator(lambda n: [n == "", n is None], ValueError("Email can't be blank or None"))
+    @str_validator
     def email(self, email: str):
         self._email = email

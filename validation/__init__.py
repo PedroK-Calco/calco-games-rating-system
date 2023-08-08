@@ -18,3 +18,11 @@ def str_validator(setter):
 
     return wrapper
 
+
+def int_validator(setter):
+    def wrapper(self, value):
+        if value < 0:
+            raise ValueError(f"'{setter.__name__}' can't be less than 0")
+        setter(self, value)
+
+    return wrapper
