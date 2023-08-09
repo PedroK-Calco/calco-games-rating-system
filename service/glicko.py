@@ -19,7 +19,9 @@ def calculate_deviation() -> int:
 
 
 def calculate_q() -> float:
-    pass
+    q = log(10) / 400
+
+    return q
 
 
 def calculate_d() -> float:
