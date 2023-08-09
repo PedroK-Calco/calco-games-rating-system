@@ -1,25 +1,34 @@
-from math import*
+from math import *
 
 NEW_RATING: int = 1500
 NEW_DEVIATION: int = 350
 
 
-class Glicko:
-    @staticmethod
-    def calculate_rating(self, ratings: int) -> int:
-        q: float = 0
-        rd: int = 0
-        d: float = 0
-        sum_r: float = 0
-        r: int = ratings + ((q / ((1 / rd ** 2) + (1 / d ** 2))) * sum_r)
+def calculate_rating(ratings: int) -> int:
+    q: float = calculate_q()
+    rd: int = 0
+    d: float = calculate_d()
+    sum_r: float = calculate_sum_r()
+    r: int = ratings + ((q / ((1 / rd ** 2) + (1 / d ** 2))) * sum_r)
 
-        return r
+    return r
 
-    def calculate_deviation(self) -> int:
-        pass
 
-    @staticmethod
-    def get_new_player_stats() -> tuple[int, int]:
-        return NEW_RATING, NEW_DEVIATION
+def calculate_deviation() -> int:
+    pass
 
-    # static methods to calculate variables
+
+def calculate_q() -> float:
+    pass
+
+
+def calculate_d() -> float:
+    pass
+
+
+def calculate_sum_r() -> float:
+    pass
+
+
+def get_new_player_stats() -> tuple[int, int]:
+    return NEW_RATING, NEW_DEVIATION
