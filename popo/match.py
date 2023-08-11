@@ -3,12 +3,15 @@ from validation import *
 
 
 class Match:
-    def __init__(self, match_id: int, player_one_id: int, player_two_id: int, game: str, timebox: datetime):
+    def __init__(self, match_id: int, player_one_id: int, player_two_id: int, game: str, timebox: datetime,
+                 expected_outcome: float):
         self._match_id: int = match_id
         self._player_one_id: int = player_one_id
         self._player_two_id: int = player_two_id
         self._game: str = game
         self._timebox: datetime = timebox
+        self._expected_outcome: float = expected_outcome
+        self._outcome: dict[int, int] | None = None
 
     @property
     def match_id(self) -> int:
@@ -53,3 +56,30 @@ class Match:
     @timebox.setter
     def timebox(self, timebox: datetime):
         self._timebox = timebox
+
+    @property
+    @int_validator
+    def expected_outcome(self) -> float:
+        return self._expected_outcome
+
+    @property
+    def outcome(self) -> dict[int, int]:
+        if self._outcome is None:
+            raise ValueError(
+                "Outcome shouldn't return None, match hasn't been completed and the call was made too early.")
+
+        return self._outcome
+
+    @outcome.setter
+    def outcome(self, winner_id: int):
+        match winner_id:
+            case self._player_one_id:
+                self._outcome = {
+                    self._player_one_id: 1,
+                    self._player_two_id: 0
+                }
+            case self._player_two_id:
+                self._outcome = {
+                    self._player_one_id: 0,
+                    self._player_two_id: 1
+                }
