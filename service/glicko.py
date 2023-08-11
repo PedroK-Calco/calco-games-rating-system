@@ -1,25 +1,28 @@
 from math import *
+from popo import Player
+from popo import Match
 
 NEW_RATING: int = 1500
 NEW_DEVIATION: int = 350
 Q: float = log(10) / 400
 
 
-def calculate_new_rating(r: int, rd: int, r_j: int, rd_j: int, s: int, e_o: float) -> int:
-    """
-    Calculate the new rating of the context player
-    :param r: Player's rating
-    :param rd: Player's rating deviation
-    :param r_j: Opponent's rating
-    :param rd_j: Opponnt's rating deviation
-    :param s: Outcome of the match (1 = win, 0 = loss)
-    :param e_o: The expected outcome of the match before it was played
-    :return: Post rating period player rating
-    """
-    g_rd: float = calculate_g_of_rd(rd)
-    g_j: float = calculate_g_of_rd(rd_j)
-    d: float = calculate_d(g_j=g_j, e_o=calculate_expected_outcome(g_j, r, r_j))
-    new_r: int = r + ((Q / ((1 / rd ** 2) + (1 / d ** 2))) * (g_rd * (s - e_o)))
+def calculate_new_rating(user: Player, opponent: Player, match: Match) -> int:
+    r: int = user.rating  # User's rating
+    rd: int = user.deviation  # User's deviation
+    g_of_rd: float = user.g_of_rd  # User's g(deviation) value
+
+    # 'j' signifies that it is the value of the opponent. This is carried over from Glicko's documentation
+    r_j: int = opponent.rating  # Opponent's rating
+    rd_j: int = opponent.deviation  # Opponent's deviation
+    g_of_rd_j: int = opponent.g_of_rd  # Opponent's g(deviation) value
+
+    e_o: float = 0  # Expected outcome of the match
+    s: int = 0  # Outcome of the match
+
+    d: float = calculate_d(g_of_rd_j=g_of_rd_j, e_o=calculate_expected_outcome(g_of_rd_j, r, r_j))
+
+    new_r: int = r + ((Q / ((1 / rd ** 2) + (1 / d ** 2))) * (g_of_rd * (s - e_o)))
 
     return new_r
 
@@ -54,12 +57,12 @@ def calculate_expected_outcome(g_j: float, r: int, r_j: int) -> float:
     return e_o
 
 
-def calculate_d(g_j: float, e_o: float) -> float:
+def calculate_d(g_of_rd_j: float, e_o: float) -> float:
     """
-    :param g_j: g(RD) of the opponent
+    :param g_of_rd_j: g(RD) of the opponent
     :param e_o: Expected Outcome of the match
     """
-    d = (Q ** 2) * ((g_j ** 2) * e_o * (1 - e_o)) ** -1
+    d = (Q ** 2) * ((g_of_rd_j ** 2) * e_o * (1 - e_o)) ** -1
 
     return d
 
