@@ -1,1 +1,1 @@
-import glicko
+from .glicko import *
