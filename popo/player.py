@@ -2,10 +2,11 @@ from validation import *
 
 
 class Player:
-    def __init__(self, game: str, rating: int, deviation: int):
+    def __init__(self, game: str, rating: int, deviation: int, g_of_rd: float):
         self._game: str = game
         self._rating: int = rating
         self._deviation: int = deviation
+        self._g_of_rd: float = g_of_rd
 
     @property
     def game(self) -> str:
@@ -33,4 +34,13 @@ class Player:
     @int_validator
     def deviation(self, deviation: int):
         self._deviation = deviation
+
+    @property
+    def g_of_rd(self):
+        return self._g_of_rd
+
+    @g_of_rd.setter
+    @int_validator
+    def g_of_rd(self, g_of_rd: float):
+        self._g_of_rd = g_of_rd
         

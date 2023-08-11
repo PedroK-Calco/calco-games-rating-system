@@ -68,5 +68,5 @@ def get_new_player_stats() -> dict[str, int | float]:
     return {
         "rating": NEW_RATING,
         "deviation": NEW_DEVIATION,
-        "g_rd": calculate_g_of_rd(NEW_RATING)
+        "g_of_rd": calculate_g_of_rd(NEW_RATING)
     }
