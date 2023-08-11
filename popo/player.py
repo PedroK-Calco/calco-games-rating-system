@@ -1,8 +1,10 @@
 from validation import *
+from popo import User
 
 
-class Player:
-    def __init__(self, game: str, rating: int, deviation: int, g_of_rd: float):
+class Player(User):
+    def __init__(self, game: str, rating: int, deviation: int, g_of_rd: float, user_id: int, name: str, email: str):
+        super().__init__(user_id, name, email)
         self._game: str = game
         self._rating: int = rating
         self._deviation: int = deviation

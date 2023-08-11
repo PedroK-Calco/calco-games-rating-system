@@ -17,8 +17,8 @@ def calculate_new_rating(user: Player, opponent: Player, match: Match) -> int:
     rd_j: int = opponent.deviation  # Opponent's deviation
     g_of_rd_j: int = opponent.g_of_rd  # Opponent's g(deviation) value
 
-    e_o: float = 0  # Expected outcome of the match
-    s: int = 0  # Outcome of the match
+    e_o: float = match.expected_outcome  # Expected outcome of the match
+    s: int = match.outcome[user.user_id]  # Outcome of the match tied to user's id
 
     d: float = calculate_d(g_of_rd_j=g_of_rd_j, e_o=calculate_expected_outcome(g_of_rd_j, r, r_j))
 
