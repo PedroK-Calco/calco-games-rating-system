@@ -1,3 +1,18 @@
+"""
+The Glicko system was created by Dr. Mark E. Glickman.
+This implementation utilizes several variable naming structures found in the
+Glicko system paper: http://www.glicko.net/glicko/glicko.pdf.
+
+Calculations performed by this system are done with a 'context player'.
+In other words, the first-person perspective.
+This means that similarly, the same calculations will need to be called for the opponent
+as the 'context player'.
+
+This implementation makes the following variable naming assertions:
+    - 'User' refers to the context player that the calculations are being done for
+    - '_j' refers to the context opponent of the player that the calculations are being done for
+"""
+
 from math import *
 from popo import Player
 from popo import Match
@@ -7,18 +22,17 @@ NEW_DEVIATION: int = 350
 Q: float = log(10) / 400
 
 
-def calculate_new_rating(user: Player, opponent: Player, match: Match) -> int:
-    r: int = user.rating  # User's rating
-    rd: int = user.deviation  # User's deviation
-    g_of_rd: float = user.g_of_rd  # User's g(deviation) value
+def calculate_new_rating(context_player: Player, opponent: Player, match: Match) -> int:
+    r: int = context_player.rating  # User's rating
+    rd: int = context_player.deviation  # User's deviation
+    g_of_rd: float = context_player.g_of_rd  # User's g(deviation) value
 
-    # 'j' signifies that it is the value of the opponent. This is carried over from Glicko's documentation
     r_j: int = opponent.rating  # Opponent's rating
     rd_j: int = opponent.deviation  # Opponent's deviation
     g_of_rd_j: int = opponent.g_of_rd  # Opponent's g(deviation) value
 
-    e_o: float = match.expected_outcome  # Expected outcome of the match
-    s: int = match.outcome[user.user_id]  # Outcome of the match tied to user's id
+    e_o: float = match.expected_outcome[opponent.user_id]  # Expected outcome of the match relative to the opponent
+    s: int = match.outcome[context_player.user_id]  # Outcome of the match tied to user's id
 
     d: float = calculate_d(g_of_rd_j=g_of_rd_j, e_o=calculate_expected_outcome(g_of_rd_j, r, r_j))
 

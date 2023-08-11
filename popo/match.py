@@ -4,13 +4,15 @@ from validation import *
 
 class Match:
     def __init__(self, match_id: int, player_one_id: int, player_two_id: int, game: str, timebox: datetime,
-                 expected_outcome: float):
+                 expected_outcome: dict[int, float]):
         self._match_id: int = match_id
         self._player_one_id: int = player_one_id
         self._player_two_id: int = player_two_id
         self._game: str = game
         self._timebox: datetime = timebox
-        self._expected_outcome: float = expected_outcome
+
+        # Data for both players based on database ID
+        self._expected_outcome: dict[int, float] = expected_outcome
         self._outcome: dict[int, int] | None = None
 
     @property
@@ -59,7 +61,7 @@ class Match:
 
     @property
     @int_validator
-    def expected_outcome(self) -> float:
+    def expected_outcome(self) -> dict[int, float]:
         return self._expected_outcome
 
     @property
