@@ -65,7 +65,7 @@ def calculate_deviation(rd: int, g_rd: float, e_o: float):
     """
     d: float = calculate_d(g_rd, e_o)
 
-    new_rd = (sqrt((1 / (rd ** 2)) + (1 / (d ** 2)))) ** -1
+    new_rd = sqrt(((1 / (rd ** 2)) + (1 / (d ** 2))) ** -1)
 
     # RD is either new value or 350 if the new value is greater than 350
     new_rd = min(new_rd, NEW_DEVIATION)
@@ -84,15 +84,15 @@ def calculate_g_of_rd(rd: int) -> float:
     return g_rd
 
 
-def calculate_expected_outcome(r: int, r_j: int, g_j: float) -> float:
+def calculate_expected_outcome(r: int, r_j: int, g_of_rd_j: float) -> float:
     """
     Calculates the expected outcome of a match for the context player
     :param r: Player's rating to calculate the expected outcome for
-    :param g_j: g(RD) of the opponent
+    :param g_of_rd_j: g(RD) of the opponent
     :param r_j: Opponent's rating
     :return: Expected Outcome of the match
     """
-    e_o = 1 / (1 + (10 ** (-g_j * (r - r_j) / 400)))
+    e_o = 1 / (1 + (10 ** (-g_of_rd_j * (r - r_j) / 400)))
 
     return e_o
 

@@ -10,6 +10,11 @@ class Player(User):
         self._deviation: int = deviation
         self._g_of_rd: float = g_of_rd
 
+    @classmethod
+    def new(cls, game: str, new_player_defaults: dict, user_id: int, name: str, email: str):
+        return cls(game=game, rating=new_player_defaults["rating"], deviation=new_player_defaults["deviation"],
+                   g_of_rd=new_player_defaults["g_of_rd"], user_id=user_id, name=name, email=email)
+
     @property
     def game(self) -> str:
         return self._game
