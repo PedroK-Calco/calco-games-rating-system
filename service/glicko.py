@@ -11,6 +11,13 @@ as the 'context player'.
 This implementation makes the following variable naming assertions:
     - 'User' refers to the context player that the calculations are being done for
     - '_j' refers to the context opponent of the player that the calculations are being done for
+
+Additionally, the system uses variables in the calculation denoted by a letter.
+What each letter signifies is quite advanced statistics that I do not understand.
+Hence, they are simply copied with no explanation as to what they refer.
+These are the variables:
+    - 'g' of rating deviation
+    - 'd'
 """
 
 from math import *
@@ -23,6 +30,13 @@ Q: float = log(10) / 400
 
 
 def calculate_new_rating(context_player: Player, opponent: Player, match: Match) -> int:
+    """
+    Calculate a new rating for a single context player.
+    :param context_player: The player who's new rating will be calculated
+    :param opponent: The opponent the context player played against
+    :param match: The overall data of the match between the context player and the opponent
+    :return: A new rating value for the context player
+    """
     r: int = context_player.rating  # User's rating
     rd: int = context_player.deviation  # User's deviation
     g_of_rd: float = context_player.g_of_rd  # User's g(deviation) value
@@ -42,6 +56,13 @@ def calculate_new_rating(context_player: Player, opponent: Player, match: Match)
 
 
 def calculate_deviation(rd: int, g_rd: float, e_o: float):
+    """
+    Calculates a rating deviation value based on the result of a match
+    :param rd: The current rating deviation of the player
+    :param g_rd: The g(RD) value of the player
+    :param e_o: The expected outcome of the played match
+    :return: A new rating deviation value with a maximum possible value of 350
+    """
     d: float = calculate_d(g_rd, e_o)
 
     new_rd = (sqrt((1 / (rd ** 2)) + (1 / (d ** 2)))) ** -1
@@ -53,16 +74,21 @@ def calculate_deviation(rd: int, g_rd: float, e_o: float):
 
 
 def calculate_g_of_rd(rd: int) -> float:
-    # G is a function that takes RD
+    """
+    Calculates the g value of the player's rating deviation
+    :param rd: The player's rating deviation
+    :return: The g value of rating deviation
+    """
     g_rd: float = 1 / sqrt(1 + (3 * (Q ** 2)) * (rd ** 2) / (pi ** 2))
 
     return g_rd
 
 
-def calculate_expected_outcome(g_j: float, r: int, r_j: int) -> float:
+def calculate_expected_outcome(r: int, r_j: int, g_j: float) -> float:
     """
+    Calculates the expected outcome of a match for the context player
+    :param r: Player's rating to calculate the expected outcome for
     :param g_j: g(RD) of the opponent
-    :param r: Player's rating
     :param r_j: Opponent's rating
     :return: Expected Outcome of the match
     """
@@ -73,6 +99,7 @@ def calculate_expected_outcome(g_j: float, r: int, r_j: int) -> float:
 
 def calculate_d(g_of_rd_j: float, e_o: float) -> float:
     """
+    Calculate the d value
     :param g_of_rd_j: g(RD) of the opponent
     :param e_o: Expected Outcome of the match
     """
@@ -82,6 +109,10 @@ def calculate_d(g_of_rd_j: float, e_o: float) -> float:
 
 
 def get_new_player_stats() -> dict[str, int | float]:
+    """
+    Get the starting default rating values
+    :return: A dictionary containing the default rating, rating deviation, and g(RD)
+    """
     return {
         "rating": NEW_RATING,
         "deviation": NEW_DEVIATION,
