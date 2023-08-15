@@ -13,7 +13,10 @@ class Test(TestCase):
     def test_calculate_new_rating(self):
         self.fail()
 
-    def test_calculate_deviation(self):
+    def test_calculate_rd_time(self):
+        self.fail()
+
+    def test_calculate_rd_prime(self):
         self.fail()
 
     def test_calculate_g_of_rd(self):

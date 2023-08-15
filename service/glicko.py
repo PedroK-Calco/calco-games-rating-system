@@ -25,7 +25,8 @@ from popo import Player
 from popo import Match
 
 NEW_RATING: int = 1500
-NEW_DEVIATION: int = 350
+MAX_DEVIATION: int = 350
+MIN_DEVIATION: int = 30
 Q: float = log(10) / 400
 
 
@@ -55,22 +56,36 @@ def calculate_new_rating(context_player: Player, opponent: Player, match: Match)
     return new_r
 
 
-def calculate_deviation(rd: int, g_rd: float, e_o: float):
+def calculate_rd_time(rd_old: int) -> int:
+    """
+    Calculates a rating deviation value after a rating period
+    :param rd_old: The current rating deviation of the player
+    :return: A new rating deviation value with a maximum possible value of 350 and minimum possible value of 30
+    """
+    c = calculate_c(rd_old)
+
+    rd = sqrt((rd_old ** 2) + (c ** 2))
+
+    rd = __clamp_rd(rd)
+
+    return rd
+
+
+def calculate_rd_prime(rd_old: int, g_rd: float, e_o: float) -> int:
     """
     Calculates a rating deviation value based on the result of a match
-    :param rd: The current rating deviation of the player
+    :param rd_old: The current rating deviation of the player
     :param g_rd: The g(RD) value of the player
     :param e_o: The expected outcome of the played match
-    :return: A new rating deviation value with a maximum possible value of 350
+    :return: A new rating deviation value with a maximum possible value of 350 and minimum possible value of 30
     """
     d: float = calculate_d(g_rd, e_o)
 
-    new_rd = sqrt(((1 / (rd ** 2)) + (1 / (d ** 2))) ** -1)
+    rd = sqrt(((1 / (rd_old ** 2)) + (1 / (d ** 2))) ** -1)
 
-    # RD is either new value or 350 if the new value is greater than 350
-    new_rd = min(new_rd, NEW_DEVIATION)
+    rd = __clamp_rd(rd)
 
-    return new_rd
+    return rd
 
 
 def calculate_g_of_rd(rd: int) -> float:
@@ -108,6 +123,12 @@ def calculate_d(g_of_rd_j: float, e_o: float) -> float:
     return d
 
 
+def calculate_c(rd: int) -> any:
+    c = sqrt((MAX_DEVIATION ** 2) - (rd ** 2)) / sqrt(30)
+
+    return c
+
+
 def get_new_player_stats() -> dict[str, int | float]:
     """
     Get the starting default rating values
@@ -115,6 +136,23 @@ def get_new_player_stats() -> dict[str, int | float]:
     """
     return {
         "rating": NEW_RATING,
-        "deviation": NEW_DEVIATION,
+        "deviation": MAX_DEVIATION,
         "g_of_rd": calculate_g_of_rd(NEW_RATING)
     }
+
+
+def __clamp_rd(rd: int | float) -> int:
+    """
+    Clamps the rd value between a maximum value of 350 and a minimum value of 30.
+    Also casts the data type of rd to an int
+    :param rd: The rating deviation to be clamped
+    :return: The clamped rating deviation casted to an int
+    """
+
+    # RD is either new value or 350 if the new value is greater than 350
+    clamped = min(rd, MAX_DEVIATION)
+
+    # RD is either new value or 30 if the new value is less than 30
+    clamped = max(clamped, MIN_DEVIATION)
+
+    return int(clamped)

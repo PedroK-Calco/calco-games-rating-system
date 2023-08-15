@@ -1,3 +1,2 @@
 from service import glicko
 
-
