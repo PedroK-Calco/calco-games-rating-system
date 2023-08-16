@@ -31,8 +31,8 @@ class CSVReaderWriter:
         :param data: Data set to be written to the csv
         :return:
         """
-        _data = pandas.DataFrame.from_dict(data, orient="index", columns=["name", "email", "rating", "rd", "g(rd)"])
-        _data = _data.reset_index()
-        _data = _data.rename(columns={'index': 'user_id'})
+        df = pandas.DataFrame.from_dict(data, orient="index", columns=["name", "email", "rating", "rd", "g(rd)"])
+        df = df.reset_index()
+        df = df.rename(columns={'index': 'user_id'})
 
-        _data.to_csv(file_path, sep=";", index=False)
+        df.to_csv(file_path, sep=";", index=False)

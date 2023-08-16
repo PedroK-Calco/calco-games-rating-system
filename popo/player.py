@@ -50,4 +50,3 @@ class Player(User):
     @int_validator
     def g_of_rd(self, g_of_rd: float):
         self._g_of_rd = g_of_rd
-        
