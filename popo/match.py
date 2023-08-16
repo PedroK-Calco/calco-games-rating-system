@@ -1,5 +1,5 @@
 from datetime import datetime
-from validation import *
+from utilities.validation import *
 
 
 class Match:

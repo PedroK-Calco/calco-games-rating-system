@@ -1,4 +1,4 @@
-from validation import *
+from utilities.validation import *
 
 
 class User:
