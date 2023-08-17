@@ -60,6 +60,7 @@ class Player(User):
         return {
             "user_id": self.user_id,
             "name": self.name,
+            "email": self.email,
             "rating": self._rating,
             "rd": self._deviation,
             "g(rd)": self._g_of_rd
