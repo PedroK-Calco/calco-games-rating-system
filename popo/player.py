@@ -16,6 +16,10 @@ class Player(User):
                    g_of_rd=new_player_defaults["g_of_rd"], user_id=user_id, name=name, email=email)
 
     @property
+    def clone(self):
+        return Player(self._game, self._rating, self._deviation, self._g_of_rd, self.user_id, self.name, self.email)
+
+    @property
     def game(self) -> str:
         return self._game
 
@@ -50,3 +54,13 @@ class Player(User):
     @int_validator
     def g_of_rd(self, g_of_rd: float):
         self._g_of_rd = g_of_rd
+
+    @property
+    def to_dict(self) -> dict:
+        return {
+            "user_id": self.user_id,
+            "name": self.name,
+            "rating": self._rating,
+            "rd": self._deviation,
+            "g(rd)": self._g_of_rd
+        }

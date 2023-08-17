@@ -7,7 +7,7 @@ class CSVReaderWriter:
     The methods will format the data to and from a dictionary nested with dictionaries of user data
     """
     @staticmethod
-    def read_csv(file_path: str) -> dict[dict]:
+    def read_csv(file_path: str) -> dict[int, dict]:
         """
         Reads the player data csv file and converts the data to a dictionary nested with dictionaries structure
         :param file_path: Path of csv file to be read

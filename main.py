@@ -1,5 +1,10 @@
 from utilities import CSVReaderWriter
+from data import PlayerRepository
 
-data = CSVReaderWriter.read_csv("data/database/pool_player_db.csv")
-CSVReaderWriter.write_csv("data/database/pool_player_db_new.csv", data)
+
+player_repo = PlayerRepository()
+player_repo.load()
+player_repo.write()
+
+# CSVReaderWriter.write_csv("data/database/pool_player_db_new.csv", data)
 
