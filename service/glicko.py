@@ -46,7 +46,7 @@ def calculate_new_rating(context_player: Player, opponent: Player, match: Match)
     e_o: float = match.expected_outcome[context_player.user_id]
     s: int = match.outcome[context_player.user_id]  # Outcome of the match relative to the context player
 
-    d: float = calculate_d(g_of_rd_j=g_of_rd_j, e_o=e_o)
+    d: float = calculate_d(g_of_rd_j, e_o)
 
     new_r = r + (Q / ((1 / rd ** 2) + (1 / d))) * g_of_rd_j * (s - e_o)
 
@@ -68,21 +68,21 @@ def calculate_rd_time(rd_old: int) -> int:
     return rd
 
 
-def calculate_rd_prime(rd_old: int, g_rd: float, e_o: float) -> int:
+def calculate_rd_prime(rd: int, g_rd_j: float, e_o: float) -> int:
     """
     Calculates a rating deviation value based on the result of a match
-    :param rd_old: The current rating deviation of the player
-    :param g_rd: The g(RD) value of the player
+    :param rd: The current rating deviation of the player
+    :param g_rd_j: The g(RD) value of the opponent
     :param e_o: The expected outcome of the played match
     :return: A new rating deviation value with a maximum possible value of 350 and minimum possible value of 30
     """
-    d: float = calculate_d(g_rd, e_o)
+    d: float = calculate_d(g_rd_j, e_o)
 
-    rd = sqrt(((1 / (rd_old ** 2)) + (1 / (d ** 2))) ** -1)
+    rd_prime = sqrt(((1 / (rd ** 2)) + (1 / d)) ** -1)
 
-    rd = __clamp_rd(rd)
+    rd_prime = __clamp_rd(rd_prime)
 
-    return rd
+    return rd_prime
 
 
 def calculate_g_of_rd(rd: int) -> float:

@@ -38,8 +38,12 @@ class Test(TestCase):
         self.fail()
 
     def test_calculate_rd_prime(self):
-        self.fail()
-        # 175
+        self.assertEqual(glicko.calculate_rd_prime(player_1.deviation, player_2.g_of_rd, match_1_2.expected_outcome[1]),
+                         175)
+        self.assertEqual(glicko.calculate_rd_prime(player_1.deviation, player_3.g_of_rd, match_1_3.expected_outcome[1]),
+                         175)
+        self.assertEqual(glicko.calculate_rd_prime(player_1.deviation, player_4.g_of_rd, match_1_4.expected_outcome[1]),
+                         186)
 
     def test_calculate_g_of_rd(self):
         self.assertAlmostEqual(glicko.calculate_g_of_rd(player_2.deviation), player_2.g_of_rd, 4)
