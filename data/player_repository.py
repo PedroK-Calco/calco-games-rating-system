@@ -34,6 +34,9 @@ class PlayerRepository:
             self.create(k, temp_player)
 
     def write(self):
+        if len(self._data) == 0:
+            raise ValueError("Repository is empty")
+
         dir_caller = os.path.dirname(__file__)
         file_name = os.path.join(dir_caller, DB_FILE_PATH_TEST)
 
