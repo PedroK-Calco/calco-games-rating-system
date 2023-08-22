@@ -1,15 +1,14 @@
-from datetime import datetime
 from utilities.validation import *
 
 
 class Match:
-    def __init__(self, match_id: int, player_one_id: int, player_two_id: int, game: str, timebox: datetime,
+    def __init__(self, match_id: int, player_one_id: int, player_two_id: int, game: str, timebox: str,
                  expected_outcome: dict[int, float]):
         self._match_id: int = match_id
         self._player_one_id: int = player_one_id
         self._player_two_id: int = player_two_id
         self._game: str = game
-        self._timebox: datetime = timebox
+        self._timebox: str = timebox
 
         # Data for both players based on database ID
         self._expected_outcome: dict[int, float] = expected_outcome
@@ -52,15 +51,14 @@ class Match:
         self._game = game
 
     @property
-    def timebox(self) -> datetime:
+    def timebox(self) -> str:
         return self._timebox
 
     @timebox.setter
-    def timebox(self, timebox: datetime):
+    def timebox(self, timebox: str):
         self._timebox = timebox
 
     @property
-    @int_validator
     def expected_outcome(self) -> dict[int, float]:
         return self._expected_outcome
 
