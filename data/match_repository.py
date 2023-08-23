@@ -3,14 +3,17 @@ import os
 from popo import Match
 from popo import Player
 
+from data import PlayerRepository
+
 from utilities import CSVReaderWriter
 
 DB_FILE_PATH = "database/pool_match_db.csv"
 
 
 class MatchRepository:
-    def __init__(self):
+    def __init__(self, player_rep: PlayerRepository):
         self._data: dict[int, Match] = {}
+        self._player_repo: PlayerRepository = player_rep
 
     def create(self, player_1: Player, player_2: Player, expected_outcome: dict[int, float]):
         match_id: int = self._get_new_id()
@@ -18,7 +21,7 @@ class MatchRepository:
         match: Match = Match(match_id, player_1, player_2, match_game, "time", expected_outcome)
 
         self._data[match_id] = match
-        self._write()
+        self.write()
 
     def update(self):
         pass
@@ -39,7 +42,22 @@ class MatchRepository:
 
         return new_id
 
-    def _write(self):
+    def load(self):
+        dir_caller = os.path.dirname(__file__)
+        file_name = os.path.join(dir_caller, DB_FILE_PATH)
+
+        data: dict[int, dict] = CSVReaderWriter.read_csv(file_name)
+
+        for k, v in data.items():
+            player_1: Player = self._player_repo.retrieve(v["player_1"])
+            player_2: Player = self._player_repo.retrieve(v["player_2"])
+
+            self.create(player_1, player_2, {
+                v["player_1"]: v["expected_outcome_p1"],
+                v["player_2"]: v["expected_outcome_p2"]
+            })
+
+    def write(self):
         dir_caller = os.path.dirname(__file__)
         file_name = os.path.join(dir_caller, DB_FILE_PATH)
 

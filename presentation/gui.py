@@ -12,17 +12,17 @@ class GUI(Tk):
         self.config(pady=20, padx=20)
 
         self._match_maker = Frame(master=self)
-        Label(master=self._match_maker, text="Create a Match").pack()
+        Label(master=self._match_maker, text="Create a Match").grid(row=0, column=0, columnspan=2)
 
         self._player_1_entry = Entry(master=self._match_maker)
         self._player_1_entry.insert(0, "Player 1 ID")
-        self._player_1_entry.pack()
+        self._player_1_entry.grid(row=1, column=0)
 
         self._player_2_entry = Entry(master=self._match_maker)
         self._player_2_entry.insert(0, "Player 2 ID")
-        self._player_2_entry.pack()
+        self._player_2_entry.grid(row=1, column=1)
 
-        Button(master=self._match_maker, text="Create Match", command=self._create_match).pack()
+        Button(master=self._match_maker, text="Create Match", command=self._create_match).grid(row=2, column=0, columnspan=2)
 
         self._match_maker.pack()
 

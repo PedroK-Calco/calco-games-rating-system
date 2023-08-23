@@ -15,7 +15,9 @@ class CSVReaderWriter:
         """
         data = pandas.read_csv(file_path, sep=";")
 
-        data = data.set_index('id')
+        dict_index = data.columns.values[0]
+
+        data = data.set_index(dict_index)
 
         data = data.to_dict("index")
 

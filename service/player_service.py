@@ -3,8 +3,8 @@ from data import PlayerRepository
 
 
 class PlayerService:
-    def __init__(self):
-        self._repository: PlayerRepository = PlayerRepository()
+    def __init__(self, repo: PlayerRepository):
+        self._repository: PlayerRepository = repo
 
         self._repository.load()
 

@@ -7,8 +7,10 @@ from service import glicko
 
 
 class MatchService:
-    def __init__(self):
-        self._match_repository: MatchRepository = MatchRepository()
+    def __init__(self, repo: MatchRepository):
+        self._match_repository: MatchRepository = repo
+
+        self._match_repository.load()
 
     def find_match_opponent(self, player_1: Player):
         pass
