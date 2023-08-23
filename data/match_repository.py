@@ -1,14 +1,15 @@
 from popo import Match
+from popo import Player
 
 
 class MatchRepository:
     def __init__(self):
         self._data: dict[int, Match] = {}
 
-    def create(self, player_1_id: int, player_2_id: int, expected_outcome: dict[int, float]):
+    def create(self, player_1: Player, player_2: Player, expected_outcome: dict[int, float]):
         match_id: int = self._get_new_id()
         match_game: str = "pool"
-        match: Match = Match(match_id, player_1_id, player_2_id, match_game, "time", expected_outcome)
+        match: Match = Match(match_id, player_1, player_2, match_game, "time", expected_outcome)
 
         self._data[match_id] = match
 

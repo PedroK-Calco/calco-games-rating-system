@@ -1,2 +1,3 @@
 from .glicko import *
-from .match_maker import *
+from .match_service import *
+from .player_service import *
