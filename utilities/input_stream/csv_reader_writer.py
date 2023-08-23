@@ -15,14 +15,14 @@ class CSVReaderWriter:
         """
         data = pandas.read_csv(file_path, sep=";")
 
-        data = data.set_index('user_id')
+        data = data.set_index('id')
 
         data = data.to_dict("index")
 
         return data
 
     @staticmethod
-    def write_csv(file_path: str, data: dict):
+    def write_csv(file_path: str, data: dict[int, dict]):
         # Will have to be changed at a later date to only write context player's data
         """
         Writes the entire data set to a csv file at a target file path.
@@ -31,8 +31,12 @@ class CSVReaderWriter:
         :param data: Data set to be written to the csv
         :return:
         """
-        df = pandas.DataFrame.from_dict(data, orient="index", columns=["name", "email", "rating", "rd", "g(rd)"])
+        first_value: dict = next(iter(data.values()))
+
+        columns: list = list(first_value.keys())
+
+        df = pandas.DataFrame.from_dict(data, orient="index", columns=columns[1:])
         df = df.reset_index()
-        df = df.rename(columns={'index': 'user_id'})
+        df = df.rename(columns={'index': columns[0]})
 
         df.to_csv(file_path, sep=";", index=False)

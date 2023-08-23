@@ -82,3 +82,15 @@ class Match:
                     self._player_1: 0,
                     self._player_2: 1
                 }
+
+    @property
+    def to_dict(self) -> dict:
+        return {
+            "match_id": self._match_id,
+            "player_1": self._player_1.user_id,
+            "player_2": self._player_2.user_id,
+            "game": self._game,
+            "timebox": self._timebox,
+            "expected_outcome_p1": self._expected_outcome[self._player_1.user_id],
+            "expected_outcome_p2": self._expected_outcome[self._player_2.user_id]
+        }
