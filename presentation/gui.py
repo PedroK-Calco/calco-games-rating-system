@@ -1,6 +1,6 @@
 from tkinter import *
 from service import PlayerService, MatchService
-from popo import Player
+from popo import Player, Match
 
 
 class GUI(Tk):
@@ -8,6 +8,8 @@ class GUI(Tk):
         super().__init__()
         self._player_ser: PlayerService = player_service
         self._match_ser: MatchService = match_service
+        self._current_match: Match | None = None
+
         self.title("Pool Rating Test Interface")
         self.config(pady=20, padx=20)
 
@@ -33,7 +35,7 @@ class GUI(Tk):
         self._match_id_entry.insert(0, "Match ID")
         self._match_id_entry.grid(row=1, column=0, columnspan=2)
 
-        Button(master=self._match_finder, text="Find Match").grid(row=2, column=0, columnspan=2)
+        Button(master=self._match_finder, text="Find Match", command=self._find_match).grid(row=2, column=0, columnspan=2)
 
         self._match_finder.pack()
 
@@ -61,7 +63,11 @@ class GUI(Tk):
         self._match_ser.create_match(player_1, player_2)
 
     def _find_match(self):
-        pass
+        match_id: int = int(self._match_id_entry.get())
+
+        self._current_match = self._match_ser.get_match(match_id)
+        self._player_1_radio.config(text=f"1: {self._current_match.player_one.name}")
+        self._player_2_radio.config(text=f"2: {self._current_match.player_two.name}")
 
     def _end_match(self):
         pass

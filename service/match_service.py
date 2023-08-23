@@ -12,6 +12,9 @@ class MatchService:
 
         self._match_repository.load()
 
+    def get_match(self, match_id: int) -> Match:
+        return self._match_repository.retrieve(match_id)
+
     def find_match_opponent(self, player_1: Player):
         pass
 
