@@ -26,6 +26,17 @@ class GUI(Tk):
 
         self._match_maker.pack()
 
+        self._match_finder = Frame(master=self)
+        Label(master=self._match_finder, text="Find a Match").grid(row=0, column=0, columnspan=2)
+
+        self._match_id_entry = Entry(master=self._match_finder)
+        self._match_id_entry.insert(0, "Match ID")
+        self._match_id_entry.grid(row=1, column=0, columnspan=2)
+
+        Button(master=self._match_finder, text="Find Match").grid(row=2, column=0, columnspan=2)
+
+        self._match_finder.pack()
+
         self._match_ender = Frame(master=self)
         self._result = IntVar()
         Label(master=self._match_ender, text="End a Match").grid(row=0, column=0, columnspan=2)
@@ -48,6 +59,9 @@ class GUI(Tk):
         player_2: Player = self._player_ser.get_player(player_2_id)
 
         self._match_ser.create_match(player_1, player_2)
+
+    def _find_match(self):
+        pass
 
     def _end_match(self):
         pass
