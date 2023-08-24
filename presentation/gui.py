@@ -57,6 +57,9 @@ class GUI(Tk):
         self._match_ender.pack()
 
     def _create_match(self):
+        """
+        Creates a match between two player id's inserted in the respective entry fields
+        """
         player_1_id: int = int(self._player_1_entry.get())
         player_2_id: int = int(self._player_2_entry.get())
 
@@ -66,6 +69,9 @@ class GUI(Tk):
         self._match_ser.create_match(player_1, player_2)
 
     def _find_match(self):
+        """
+        Retrieves a Match object from the match repository and assigns it GUI's match attribute
+        """
         match_id: int = int(self._match_id_entry.get())
 
         self._current_match = self._match_ser.get_match(match_id)
@@ -73,6 +79,10 @@ class GUI(Tk):
         self._player_2_radio.config(text=f"2: {self._current_match.player_two.name}")
 
     def _end_match(self):
+        """
+        Finalizes a match by submitting a winning player to the match service.
+        Then updates and stores the new player data to the database
+        """
         if self._current_match is not None:
             winner_id: int = 0
 

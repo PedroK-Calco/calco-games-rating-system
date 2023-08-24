@@ -16,6 +16,12 @@ class MatchRepository:
         self._player_repo: PlayerRepository = player_rep
 
     def create(self, player_1: Player, player_2: Player, expected_outcome: dict[int, float]):
+        """
+        Creates a new Match object and inserts it into the repository
+        :param player_1: A Player object for one of the players in the match
+        :param player_2: Another Player object for the other player in the match
+        :param expected_outcome: Float values for both players indicating their odds of winning the match
+        """
         match_id: int = self._get_new_id()
         match_game: str = "pool"
         match: Match = Match(match_id, player_1, player_2, match_game, "time", expected_outcome)
@@ -27,13 +33,26 @@ class MatchRepository:
         pass
 
     def retrieve(self, match_id: int) -> Match:
+        """
+        Retrieves a Match object from the repository
+        :param match_id: The id of the match to be retrieved
+        :return: A Match object containing player data and the odds of them winning
+        """
         return self._data[match_id]
 
     def delete(self, match_id: int):
+        """
+        Remove a Match object from the repository
+        :param match_id: The id of the match to be deleted
+        """
         del self._data[match_id]
         self.write()
 
     def _get_new_id(self) -> int:
+        """
+        Creates a new id for a key value pair entry to the repository
+        :return: An unused id from the existing repository
+        """
         if self._data.__len__() == 0:
             last_id = 0
         else:
@@ -44,6 +63,9 @@ class MatchRepository:
         return new_id
 
     def load(self):
+        """
+        Reads data from the database and stores it in the data attribute
+        """
         dir_caller = os.path.dirname(__file__)
         file_name = os.path.join(dir_caller, DB_FILE_PATH)
 
@@ -59,6 +81,9 @@ class MatchRepository:
             })
 
     def write(self):
+        """
+        Writes to the database the data in the data attribute
+        """
         dir_caller = os.path.dirname(__file__)
         file_name = os.path.join(dir_caller, DB_FILE_PATH)
 

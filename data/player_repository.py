@@ -12,18 +12,36 @@ class PlayerRepository:
         self._data: dict[int, Player] = {}
 
     def create(self, key: int, value: Player):
+        """
+        Creates a new Player class element in the repository
+        :param key: The user_id of the new player
+        :param value: The Player object with that player's data
+        """
         if key not in self._data:
             self._data[key] = value.clone
         else:
             raise ValueError(f"key: {key} already exists")
 
     def retrieve(self, index: int) -> Player:
+        """
+        Retrieves a Player object with a player's data from the repository
+        :param index: The user_id of the player to retrieve
+        :return: A Player object associated to the user_id
+        """
         return self._data[index]
 
     def update(self, index: int, value: Player):
+        """
+        Updates the values of a player in the repository
+        :param index: The user_id of the player to be updated
+        :param value: The Player object with the new values
+        """
         self._data[index] = value.clone
 
     def load(self):
+        """
+        Reads data from the database and stores it in the data attribute
+        """
         dir_caller = os.path.dirname(__file__)
         file_name = os.path.join(dir_caller, DB_FILE_PATH_TEST)
 
@@ -34,6 +52,9 @@ class PlayerRepository:
             self.create(k, temp_player)
 
     def write(self):
+        """
+        Writes to the database the data in the data attribute
+        """
         if len(self._data) == 0:
             raise ValueError("Repository is empty")
 

@@ -13,12 +13,22 @@ class MatchService:
         self._match_repository.load()
 
     def get_match(self, match_id: int) -> Match:
+        """
+        Returns a match object from the match repository based on its id.
+        :param match_id: The id of the match to retrieve
+        :return: The Match object of the match
+        """
         return self._match_repository.retrieve(match_id)
 
     def find_match_opponent(self, player_1: Player):
         pass
 
     def create_match(self, player_1: Player, player_2: Player):
+        """
+        Creates a new Match object into the repository
+        :param player_1: Player object of player 1
+        :param player_2: Player object of player 2
+        """
         expected_outcomes: dict[int, float] = {
             player_1.user_id: glicko.calculate_expected_outcome(player_1.rating, player_2.rating, player_2.g_of_rd),
             player_2.user_id: glicko.calculate_expected_outcome(player_2.rating, player_1.rating, player_1.g_of_rd)
@@ -27,6 +37,13 @@ class MatchService:
         self._match_repository.create(player_1, player_2, expected_outcomes)
 
     def conclude_match(self, match: Match, winner_id: int) -> dict[int, Player]:
+        """
+        A finalization process where an active match is concluded and creates new values of
+        player data relative to the winner.
+        :param match: The match data to conclude
+        :param winner_id: The user_id of the winner player
+        :return: A dictionary with a key value pair of user_id and new player data respectively
+        """
         match: Match = match
 
         match.outcome = winner_id
