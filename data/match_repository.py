@@ -30,7 +30,8 @@ class MatchRepository:
         return self._data[match_id]
 
     def delete(self, match_id: int):
-        self._data.pop(match_id)
+        del self._data[match_id]
+        self.write()
 
     def _get_new_id(self) -> int:
         if self._data.__len__() == 0:

@@ -25,7 +25,7 @@ class PlayerRepository:
 
     def load(self):
         dir_caller = os.path.dirname(__file__)
-        file_name = os.path.join(dir_caller, DB_FILE_PATH)
+        file_name = os.path.join(dir_caller, DB_FILE_PATH_TEST)
 
         data: dict[int, dict] = CSVReaderWriter.read_csv(file_name)
 

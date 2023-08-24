@@ -13,3 +13,6 @@ class PlayerService:
 
     def update_player(self, user_id: int, player: Player):
         self._repository.update(user_id, player)
+
+    def save_player_data(self):
+        self._repository.write()

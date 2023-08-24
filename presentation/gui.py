@@ -24,7 +24,8 @@ class GUI(Tk):
         self._player_2_entry.insert(0, "Player 2 ID")
         self._player_2_entry.grid(row=1, column=1)
 
-        Button(master=self._match_maker, text="Create Match", command=self._create_match).grid(row=2, column=0, columnspan=2)
+        Button(master=self._match_maker, text="Create Match", command=self._create_match).grid(row=2, column=0,
+                                                                                               columnspan=2)
 
         self._match_maker.pack()
 
@@ -35,7 +36,8 @@ class GUI(Tk):
         self._match_id_entry.insert(0, "Match ID")
         self._match_id_entry.grid(row=1, column=0, columnspan=2)
 
-        Button(master=self._match_finder, text="Find Match", command=self._find_match).grid(row=2, column=0, columnspan=2)
+        Button(master=self._match_finder, text="Find Match", command=self._find_match).grid(row=2, column=0,
+                                                                                            columnspan=2)
 
         self._match_finder.pack()
 
@@ -49,7 +51,8 @@ class GUI(Tk):
         self._player_2_radio = Radiobutton(master=self._match_ender, text="Player 2", variable=self._result, value=2)
         self._player_2_radio.grid(row=1, column=1)
 
-        Button(master=self._match_ender, text="Submit results").grid(row=2, column=0, columnspan=2)
+        Button(master=self._match_ender, text="Submit results", command=self._end_match).grid(row=2, column=0,
+                                                                                              columnspan=2)
 
         self._match_ender.pack()
 
@@ -70,4 +73,18 @@ class GUI(Tk):
         self._player_2_radio.config(text=f"2: {self._current_match.player_two.name}")
 
     def _end_match(self):
-        pass
+        if self._current_match is not None:
+            winner_id: int = 0
+
+            match self._result.get():
+                case 1:
+                    winner_id = self._current_match.player_one.user_id
+                case 2:
+                    winner_id = self._current_match.player_two.user_id
+
+            new_player_data = self._match_ser.conclude_match(self._current_match, winner_id)
+
+            for k, v in new_player_data.items():
+                self._player_ser.update_player(k, v)
+
+            self._player_ser.save_player_data()

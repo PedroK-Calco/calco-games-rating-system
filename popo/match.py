@@ -72,15 +72,15 @@ class Match:
     @outcome.setter
     def outcome(self, winner_id: int):
         match winner_id:
-            case self._player_1:
+            case self._player_1.user_id:
                 self._outcome = {
-                    self._player_1: 1,
-                    self._player_2: 0
+                    self._player_1.user_id: 1,
+                    self._player_2.user_id: 0
                 }
-            case self._player_2:
+            case self._player_2.user_id:
                 self._outcome = {
-                    self._player_1: 0,
-                    self._player_2: 1
+                    self._player_1.user_id: 0,
+                    self._player_2.user_id: 1
                 }
 
     @property
