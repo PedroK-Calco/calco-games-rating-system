@@ -1,5 +1,4 @@
 from presentation import GUI
-from data import *
 from service import *
 
 player_repository: PlayerRepository = PlayerRepository()

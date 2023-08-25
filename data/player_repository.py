@@ -10,6 +10,7 @@ DB_FILE_PATH_TEST = "database/pool_player_db_new.csv"
 class PlayerRepository:
     def __init__(self):
         self._data: dict[int, Player] = {}
+        self._data_columns: list = []
 
     def create(self, key: int, value: Player):
         """
@@ -19,6 +20,7 @@ class PlayerRepository:
         """
         if key not in self._data:
             self._data[key] = value.clone
+            self._data_columns = list(value.to_dict.keys())
         else:
             raise ValueError(f"key: {key} already exists")
 
@@ -66,4 +68,4 @@ class PlayerRepository:
         for k, v in self._data.items():
             data_dict[k] = v.to_dict
 
-        CSVReaderWriter.write_csv(file_name, data_dict)
+        CSVReaderWriter.write_csv(file_name, data_dict, self._data_columns)

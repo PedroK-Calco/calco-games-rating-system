@@ -13,6 +13,7 @@ DB_FILE_PATH = "database/pool_match_db.csv"
 class MatchRepository:
     def __init__(self, player_rep: PlayerRepository):
         self._data: dict[int, Match] = {}
+        self._data_columns: list = []
         self._player_repo: PlayerRepository = player_rep
 
     def create(self, player_1: Player, player_2: Player, expected_outcome: dict[int, float]):
@@ -27,6 +28,7 @@ class MatchRepository:
         match: Match = Match(match_id, player_1, player_2, match_game, "time", expected_outcome)
 
         self._data[match_id] = match
+        self._data_columns = list(match.to_dict.keys())
         self.write()
 
     def update(self):
@@ -92,4 +94,4 @@ class MatchRepository:
         for k, v in self._data.items():
             data_dict[k] = v.to_dict
 
-        CSVReaderWriter.write_csv(file_name, data_dict)
+        CSVReaderWriter.write_csv(file_name, data_dict, self._data_columns)
