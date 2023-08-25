@@ -1,5 +1,6 @@
 from presentation import GUI
-from service import *
+from data import PlayerRepository, MatchRepository
+from service import PlayerService, MatchService
 
 player_repository: PlayerRepository = PlayerRepository()
 player_service: PlayerService = PlayerService(player_repository)

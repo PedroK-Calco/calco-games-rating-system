@@ -75,7 +75,10 @@ class GUI(Tk):
 
         self._match_ser.create_match(player_1, player_2)
 
+        self._player_1_entry.delete(0, END)
         self._player_1_entry.insert(0, "Player 1 ID")
+
+        self._player_2_entry.delete(0, END)
         self._player_2_entry.insert(0, "Player 2 ID")
 
     def _find_match(self):

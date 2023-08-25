@@ -59,8 +59,8 @@ class MatchService:
         player_2_new_rating_deviation: int = glicko.calculate_rd_prime(player_2.deviation, player_1.g_of_rd,
                                                                        match.expected_outcome[match.player_two.user_id])
 
-        player_1_new_g_of_rd: float = glicko.calculate_g_of_rd(player_1_new_rating)
-        player_2_new_g_of_rd: float = glicko.calculate_g_of_rd(player_2_new_rating)
+        player_1_new_g_of_rd: float = glicko.calculate_g_of_rd(player_1_new_rating_deviation)
+        player_2_new_g_of_rd: float = glicko.calculate_g_of_rd(player_2_new_rating_deviation)
 
         player_1_new = Player("pool", player_1_new_rating, player_1_new_rating_deviation, player_1_new_g_of_rd,
                               player_1.user_id, player_1.name, player_1.email)
