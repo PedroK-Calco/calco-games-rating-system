@@ -5,6 +5,7 @@ from utilities import CSVReaderWriter
 
 DB_FILE_PATH = "database/pool_player_db.csv"
 DB_FILE_PATH_TEST = "database/pool_player_db_new.csv"
+DB_FILE_PATH_TESTCASE = "database/pool_player_test_db.csv"
 
 
 class PlayerRepository:
@@ -45,7 +46,7 @@ class PlayerRepository:
         Reads data from the database and stores it in the data attribute
         """
         dir_caller = os.path.dirname(__file__)
-        file_name = os.path.join(dir_caller, DB_FILE_PATH_TEST)
+        file_name = os.path.join(dir_caller, DB_FILE_PATH_TESTCASE)
 
         data: dict[int, dict] = CSVReaderWriter.read_csv(file_name)
 
@@ -61,7 +62,7 @@ class PlayerRepository:
             raise ValueError("Repository is empty")
 
         dir_caller = os.path.dirname(__file__)
-        file_name = os.path.join(dir_caller, DB_FILE_PATH_TEST)
+        file_name = os.path.join(dir_caller, DB_FILE_PATH_TESTCASE)
 
         data_dict: dict[int, dict] = {}
 
