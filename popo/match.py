@@ -72,13 +72,25 @@ class Match:
     @outcome.setter
     def outcome(self, winner_id: int):
         match winner_id:
-            case self._player_1:
+            case self._player_1.user_id:
                 self._outcome = {
-                    self._player_1: 1,
-                    self._player_2: 0
+                    self._player_1.user_id: 1,
+                    self._player_2.user_id: 0
                 }
-            case self._player_2:
+            case self._player_2.user_id:
                 self._outcome = {
-                    self._player_1: 0,
-                    self._player_2: 1
+                    self._player_1.user_id: 0,
+                    self._player_2.user_id: 1
                 }
+
+    @property
+    def to_dict(self) -> dict:
+        return {
+            "match_id": self._match_id,
+            "player_1": self._player_1.user_id,
+            "player_2": self._player_2.user_id,
+            "game": self._game,
+            "timebox": self._timebox,
+            "expected_outcome_p1": self._expected_outcome[self._player_1.user_id],
+            "expected_outcome_p2": self._expected_outcome[self._player_2.user_id]
+        }
