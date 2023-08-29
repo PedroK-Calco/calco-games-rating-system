@@ -53,19 +53,19 @@ def calculate_new_rating(context_player: Player, opponent: Player, match: Match)
     return int(new_r)
 
 
-def calculate_rd_time(rd_old: int) -> int:
+def calculate_rd_time(rd: int) -> int:
     """
     Calculates a rating deviation value after a rating period
     :param rd_old: The current rating deviation of the player
     :return: A new rating deviation value with a maximum possible value of 350 and minimum possible value of 30
     """
-    c = calculate_c(rd_old)
+    c = calculate_c(rd)
 
-    rd = sqrt((rd_old ** 2) + (c ** 2))
+    rd_time = sqrt((rd ** 2) + (c ** 2))
 
-    rd = __clamp_rd(rd)
+    rd_time = __clamp_rd(rd_time)
 
-    return rd
+    return rd_time
 
 
 def calculate_rd_prime(rd: int, g_rd_j: float, e_o: float) -> int:

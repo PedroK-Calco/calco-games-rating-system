@@ -2,6 +2,8 @@ from tkinter import *
 from service import PlayerService, MatchService
 from popo import Player, Match
 
+PAD_Y: int = 20
+PAD_X: int = 20
 
 def _on_focus(e):
     e.widget.delete(0, END)
@@ -33,20 +35,19 @@ class GUI(Tk):
         Button(master=self._match_maker, text="Create Match", command=self._create_match).grid(row=2, column=0,
                                                                                                columnspan=2)
 
-        self._match_maker.pack()
+        self._match_maker.pack(pady=PAD_Y, padx=PAD_X)
 
         self._match_finder = Frame(master=self)
-        Label(master=self._match_finder, text="Find a Match").grid(row=0, column=0, columnspan=2)
+        Label(master=self._match_finder, text="Find a Match").grid(row=0, column=0)
 
         self._match_id_entry = Entry(master=self._match_finder)
         self._match_id_entry.insert(0, "Match ID")
         self._match_id_entry.bind("<FocusIn>", _on_focus)
-        self._match_id_entry.grid(row=1, column=0, columnspan=2)
+        self._match_id_entry.grid(row=1, column=0)
 
-        Button(master=self._match_finder, text="Find Match", command=self._find_match).grid(row=2, column=0,
-                                                                                            columnspan=2)
+        Button(master=self._match_finder, text="Find Match", command=self._find_match).grid(row=2, column=0)
 
-        self._match_finder.pack()
+        self._match_finder.pack(pady=PAD_Y, padx=PAD_X)
 
         self._match_ender = Frame(master=self)
         self._result = IntVar()
@@ -61,7 +62,19 @@ class GUI(Tk):
         Button(master=self._match_ender, text="Submit results", command=self._end_match).grid(row=2, column=0,
                                                                                               columnspan=2)
 
-        self._match_ender.pack()
+        self._match_ender.pack(pady=PAD_Y, padx=PAD_X)
+
+        self._player_time_rd = Frame(master=self)
+        Label(master=self._player_time_rd, text="Select player to timeout").grid(row=0, column=0)
+
+        self._timeout_player_entry = Entry(master=self._player_time_rd)
+        self._timeout_player_entry.insert(0, "Player ID")
+        self._timeout_player_entry.bind("<FocusIn>", _on_focus)
+        self._timeout_player_entry.grid(row=1, column=0)
+
+        Button(master=self._player_time_rd, text="Calculate new RD").grid(row=2, column=0)
+
+        self._player_time_rd.pack(pady=PAD_Y, padx=PAD_X)
 
     def _create_match(self):
         """
