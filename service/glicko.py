@@ -56,7 +56,7 @@ def calculate_new_rating(context_player: Player, opponent: Player, match: Match)
 def calculate_rd_time(rd: int) -> int:
     """
     Calculates a rating deviation value after a rating period
-    :param rd_old: The current rating deviation of the player
+    :param rd: The current rating deviation of the player
     :return: A new rating deviation value with a maximum possible value of 350 and minimum possible value of 30
     """
     c = calculate_c(rd)

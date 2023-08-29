@@ -5,6 +5,7 @@ from popo import Player, Match
 PAD_Y: int = 20
 PAD_X: int = 20
 
+
 def _on_focus(e):
     e.widget.delete(0, END)
 
@@ -65,14 +66,14 @@ class GUI(Tk):
         self._match_ender.pack(pady=PAD_Y, padx=PAD_X)
 
         self._player_time_rd = Frame(master=self)
-        Label(master=self._player_time_rd, text="Select player to timeout").grid(row=0, column=0)
+        Label(master=self._player_time_rd, text="Update player RD").grid(row=0, column=0)
 
-        self._timeout_player_entry = Entry(master=self._player_time_rd)
-        self._timeout_player_entry.insert(0, "Player ID")
-        self._timeout_player_entry.bind("<FocusIn>", _on_focus)
-        self._timeout_player_entry.grid(row=1, column=0)
+        self._player_rd_time_entry = Entry(master=self._player_time_rd)
+        self._player_rd_time_entry.insert(0, "Player ID")
+        self._player_rd_time_entry.bind("<FocusIn>", _on_focus)
+        self._player_rd_time_entry.grid(row=1, column=0)
 
-        Button(master=self._player_time_rd, text="Calculate new RD").grid(row=2, column=0)
+        Button(master=self._player_time_rd, text="Calculate new RD", command=self._update_rd).grid(row=2, column=0)
 
         self._player_time_rd.pack(pady=PAD_Y, padx=PAD_X)
 
@@ -128,3 +129,13 @@ class GUI(Tk):
             self._match_id_entry.delete(0, END)
             self._player_1_radio.config(text="Player 1")
             self._player_2_radio.config(text="Player 2")
+
+    def _update_rd(self):
+        player_id: int = int(self._player_rd_time_entry.get())
+
+        if player_id != "":
+            player: Player = self._player_ser.get_player(player_id)
+
+            self._player_ser.update_time_player(player)
+
+            self._player_ser.save_player_data()

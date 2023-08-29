@@ -1,5 +1,6 @@
 from popo import Player
 from data import PlayerRepository
+from service import glicko
 
 
 class PlayerService:
@@ -29,3 +30,8 @@ class PlayerService:
         Writes the player repository to a .csv file
         """
         self._repository.write()
+
+    def update_time_player(self, player: Player):
+        player.deviation = glicko.calculate_rd_time(player.deviation)
+
+        self.update_player(player.user_id, player)
