@@ -131,6 +131,9 @@ class GUI(Tk):
             self._player_2_radio.config(text="Player 2")
 
     def _update_rd(self):
+        """
+        Increase the rating deviation of a player based on a fixed interval of time.
+        """
         player_id: int = int(self._player_rd_time_entry.get())
 
         if player_id != "":
