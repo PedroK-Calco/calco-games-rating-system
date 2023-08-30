@@ -1,5 +1,13 @@
-from popo import User
+from presentation import GUI
+from data import PlayerRepository, MatchRepository
+from service import PlayerService, MatchService
 
-test = User(12, "test", "test")
+player_repository: PlayerRepository = PlayerRepository()
+player_service: PlayerService = PlayerService(player_repository)
+match_repository: MatchRepository = MatchRepository(player_repository)
+match_service: MatchService = MatchService(match_repository)
 
-test.user_id = -1
+wn = GUI(player_service, match_service)
+
+wn.mainloop()
+

@@ -1,0 +1,5 @@
+user_id;name;email;rating;rd;g(rd)
+1;user_1;test;1500;200;0.8442
+2;user_2;test;1400;30;0.9955
+3;user_3;test;1550;100;0.9531
+4;user_4;test;1700;300;0.7242
