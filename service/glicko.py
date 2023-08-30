@@ -40,52 +40,49 @@ def calculate_new_rating(context_player: Player, opponent: Player, match: Match)
     """
     r: int = context_player.rating  # User's rating
     rd: int = context_player.deviation  # User's deviation
-    g_of_rd: float = context_player.g_of_rd  # User's g(deviation) value
 
-    r_j: int = opponent.rating  # Opponent's rating
-    rd_j: int = opponent.deviation  # Opponent's deviation
     g_of_rd_j: int = opponent.g_of_rd  # Opponent's g(deviation) value
 
-    e_o: float = match.expected_outcome[opponent.user_id]  # Expected outcome of the match relative to the opponent
-    s: int = match.outcome[context_player.user_id]  # Outcome of the match tied to user's id
+    e_o: float = match.expected_outcome[context_player.user_id]
+    s: int = match.outcome[context_player.user_id]  # Outcome of the match relative to the context player
 
-    d: float = calculate_d(g_of_rd_j=g_of_rd_j, e_o=calculate_expected_outcome(g_of_rd_j, r, r_j))
+    d: float = calculate_d(g_of_rd_j, e_o)
 
-    new_r: int = r + ((Q / ((1 / rd ** 2) + (1 / d ** 2))) * (g_of_rd * (s - e_o)))
+    new_r = r + (Q / ((1 / rd ** 2) + (1 / d))) * g_of_rd_j * (s - e_o)
 
-    return new_r
+    return int(new_r)
 
 
-def calculate_rd_time(rd_old: int) -> int:
+def calculate_rd_time(rd: int) -> int:
     """
     Calculates a rating deviation value after a rating period
-    :param rd_old: The current rating deviation of the player
+    :param rd: The current rating deviation of the player
     :return: A new rating deviation value with a maximum possible value of 350 and minimum possible value of 30
     """
-    c = calculate_c(rd_old)
+    c = calculate_c(rd)
 
-    rd = sqrt((rd_old ** 2) + (c ** 2))
+    rd_time = sqrt((rd ** 2) + (c ** 2))
 
-    rd = __clamp_rd(rd)
+    rd_time = __clamp_rd(rd_time)
 
-    return rd
+    return rd_time
 
 
-def calculate_rd_prime(rd_old: int, g_rd: float, e_o: float) -> int:
+def calculate_rd_prime(rd: int, g_rd_j: float, e_o: float) -> int:
     """
     Calculates a rating deviation value based on the result of a match
-    :param rd_old: The current rating deviation of the player
-    :param g_rd: The g(RD) value of the player
+    :param rd: The current rating deviation of the player
+    :param g_rd_j: The g(RD) value of the opponent
     :param e_o: The expected outcome of the played match
     :return: A new rating deviation value with a maximum possible value of 350 and minimum possible value of 30
     """
-    d: float = calculate_d(g_rd, e_o)
+    d: float = calculate_d(g_rd_j, e_o)
 
-    rd = sqrt(((1 / (rd_old ** 2)) + (1 / (d ** 2))) ** -1)
+    rd_prime = sqrt(((1 / (rd ** 2)) + (1 / d)) ** -1)
 
-    rd = __clamp_rd(rd)
+    rd_prime = __clamp_rd(rd_prime)
 
-    return rd
+    return rd_prime
 
 
 def calculate_g_of_rd(rd: int) -> float:
@@ -118,7 +115,7 @@ def calculate_d(g_of_rd_j: float, e_o: float) -> float:
     :param g_of_rd_j: g(RD) of the opponent
     :param e_o: Expected Outcome of the match
     """
-    d = (Q ** 2) * ((g_of_rd_j ** 2) * e_o * (1 - e_o)) ** -1
+    d = ((Q ** 2) * (g_of_rd_j ** 2) * e_o * (1 - e_o)) ** -1
 
     return d
 
