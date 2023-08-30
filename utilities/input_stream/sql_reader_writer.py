@@ -7,7 +7,15 @@ load_dotenv()
 db = mysql.connector.connect(
     host="localhost",
     user=os.environ.get("SQL_USER_NAME"),
-    password=os.environ.get("SQL_PASSWORD")
+    password=os.environ.get("SQL_PASSWORD"),
+    database="calco_games_test"
 )
 
-print(db)
+cursor = db.cursor()
+
+cursor.execute("SELECT * FROM users")
+
+result = cursor.fetchall()
+
+for x in result:
+    print(x)
