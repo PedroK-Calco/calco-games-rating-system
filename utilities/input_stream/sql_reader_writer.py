@@ -39,7 +39,7 @@ class SQLReaderWriter:
     def retrieve(query, *args, **kwargs):
         conn: mysql.connector.MySQLConnection = kwargs.pop("connection")
 
-        cursor: mysql.connector.MySQLConnection.cursor = conn.cursor()
+        cursor: mysql.connector.MySQLConnection.cursor = conn.cursor(dictionary=True)
 
         cursor.execute(query)
 

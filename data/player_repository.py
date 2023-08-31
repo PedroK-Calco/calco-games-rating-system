@@ -55,12 +55,20 @@ class PlayerRepository:
             self.create(k, temp_player)
 
     def load_test(self):
-        query = "SELECT * FROM players_pool p JOIN users u ON p.user_id = u.id"
+        query = "SELECT p.rating, p.rating_deviation, p.g_of_rd, p.user_id, u.name, u.email FROM players_pool p JOIN users u ON p.user_id = u.id"
 
-        data = SQLReaderWriter.retrieve(query)
+        data: list[dict] = SQLReaderWriter.retrieve(query)
 
-        for x in data:
-            print(x)
+        for v in data:
+            temp_player = Player("Pool",
+                                 v["rating"],
+                                 v["rating_deviation"],
+                                 v["g_of_rd"],
+                                 v["user_id"],
+                                 v["name"],
+                                 v["email"]
+                                 )
+            self.create(v["user_id"], temp_player)
 
     def write(self):
         """
