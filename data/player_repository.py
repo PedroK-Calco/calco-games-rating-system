@@ -1,7 +1,7 @@
 import os
 
 from popo import Player
-from utilities import CSVReaderWriter
+from utilities import CSVReaderWriter, SQLReaderWriter
 
 DB_FILE_PATH = "database/pool_player_db.csv"
 DB_FILE_PATH_TEST = "database/pool_player_db_new.csv"
@@ -53,6 +53,14 @@ class PlayerRepository:
         for k, v in data.items():
             temp_player = Player("Pool", v["rating"], v["rd"], v["g(rd)"], k, v["name"], v["email"])
             self.create(k, temp_player)
+
+    def load_test(self):
+        query = "SELECT * FROM players_pool p JOIN users u ON p.user_id = u.id"
+
+        data = SQLReaderWriter.retrieve(query)
+
+        for x in data:
+            print(x)
 
     def write(self):
         """

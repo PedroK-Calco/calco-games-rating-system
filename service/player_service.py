@@ -8,6 +8,7 @@ class PlayerService:
         self._repository: PlayerRepository = repo
 
         self._repository.load()
+        self._repository.load_test()
 
     def get_player(self, user_id: int) -> Player:
         """
